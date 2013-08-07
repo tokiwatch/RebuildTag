@@ -1,0 +1,11 @@
+id: rebuildtag
+key: MT::Plugin::RebuildTag
+name: RebuildTag
+version: 1.0
+description: <MT_TRANS phrase='description of RebuildTag'>
+author_name: Takuji Tokiwa
+author_link: http://www.allianceport.jp/
+l10n_class: RebuildTag::L10N
+tags:
+    function:
+        Rebuild: $RebuildTag::RebuildTag::ContextHandlers::rebuild
