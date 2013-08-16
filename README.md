@@ -26,7 +26,7 @@ Typeインストールディレクトリの「**plugins**」ディレクトリ�
 ## 例
 
 ```
-<mt:Rebuild tempalte_ids="400,4001" force_rebuild="1">
+<mt:Rebuild template_ids="400,4001" force_rebuild="1">
 ```
 
 
