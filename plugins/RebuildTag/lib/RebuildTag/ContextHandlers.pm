@@ -58,9 +58,6 @@ sub rebuild_entries {
     use MT::FileInfo;
     use MT::WeblogPublisher;
     foreach my $id (@target_entry_ids) {
-        my $tmpl = MT::Template->load($id);
-        next unless ($tmpl);
-        my $tmpl_blog_id = $tmpl->blog_id;
         my @fileinfos = MT::FileInfo->load({    entry_id     => $id,
                                                 archive_type => 'Individual'});
         next if (! @fileinfos);
