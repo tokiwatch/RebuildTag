@@ -55,5 +55,38 @@ sub rebuild { #{{{
         }
     }
 }
+
+sub rebuild_entries { #{{{
+    my ($ctx, $args) = @_;
+
+    my $target_entry_ids_string = $args->{'ids'};
+    my $force_rebuild = $args->{'force_rebuild'};
+    return unless $target_entry_ids_string;
+    my $self_entry_id = $ctx->{'__stash'}->{'entry'}->{'column_values'}->{'id'};
+    MT->log({message => $self_entry_id});
+    my @target_ids = split(/, */, $target_entry_ids_string);
+    my @target_entry_ids;
+    foreach my $id (@target_ids){
+        push(@target_entry_ids,$id) if ($id ne $self_entry_id);
+    }
+
+    use MT::Template;
+    use MT::FileInfo;
+    use MT::WeblogPublisher;
+    foreach my $id (@target_entry_ids) {
+        my $tmpl = MT::Template->load($id);
+        next unless ($tmpl);
+        my $tmpl_blog_id = $tmpl->blog_id;
+        my @fileinfos = MT::FileInfo->load({    entry_id     => $id,
+                                                archive_type => 'Individual'});
+        next if (! @fileinfos);
+        foreach my $fileinfo (@fileinfos) {
+            my $file = $fileinfo->file_path;
+            unlink($file) if $force_rebuild;
+            my $wp = MT::WeblogPublisher->new;
+            $wp->rebuild_from_fileinfo($fileinfo);
+        }
+    }
+}
 1;
 

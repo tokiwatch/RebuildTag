@@ -9,3 +9,4 @@ l10n_class: RebuildTag::L10N
 tags:
     function:
         Rebuild: $RebuildTag::RebuildTag::ContextHandlers::rebuild
+        RebuildEntries: $RebuildTag::RebuildTag::ContextHandlers::rebuild_entries
