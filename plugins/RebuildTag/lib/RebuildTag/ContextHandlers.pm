@@ -4,27 +4,12 @@ package RebuildTag::ContextHandlers;
 
 use strict;
 use warnings;
-use Data::Dumper;
-use Data::Dump qw/dump/;
 
 sub plugin {
     return MT->component('RebuildTag');
 }
 
-sub _log {
-    my ($msg) = @_;
-    return unless defined($msg);
-    my $prefix = sprintf "%s:%s:%s: %s", caller();
-    $msg = $prefix . $msg if $prefix;
-    use MT::Log;
-    my $log = MT::Log->new;
-    $log->message($msg) ;
-    $log->save or die $log->errstr;
-    return;
-}
-
-
-sub rebuild { #{{{
+sub rebuild {
     my ($ctx, $args) = @_;
 
     my $target_template_ids_string = $args->{'template_ids'};
@@ -56,14 +41,13 @@ sub rebuild { #{{{
     }
 }
 
-sub rebuild_entries { #{{{
+sub rebuild_entries {
     my ($ctx, $args) = @_;
 
     my $target_entry_ids_string = $args->{'ids'};
     my $force_rebuild = $args->{'force_rebuild'};
     return unless $target_entry_ids_string;
     my $self_entry_id = $ctx->{'__stash'}->{'entry'}->{'column_values'}->{'id'};
-    MT->log({message => $self_entry_id});
     my @target_ids = split(/, */, $target_entry_ids_string);
     my @target_entry_ids;
     foreach my $id (@target_ids){
